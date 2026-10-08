@@ -260,6 +260,124 @@
 			]
 		},
 		{
+			"name": "Gestion Clientes (SOAP)",
+			"item": [
+				{
+					"name": "MarcacionRequisitosRegistraduria - 200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('HTTP 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('Result true', function () {",
+									"    pm.expect(pm.response.text()).to.include('<MarcacionRequisitosRegistraduriaResult>true</MarcacionRequisitosRegistraduriaResult>');",
+									"});",
+									"",
+									"pm.test('Todos los requisitos actualizados', function () {",
+									"    var body = pm.response.text();",
+									"    ['IDEXPE', 'CORNEC', 'ESTREG', 'CEDULA'].forEach(function (sigla) {",
+									"        pm.expect(body).to.include(\"Requisito '\" + sigla + \"' fue actualizado.\");",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/xml; charset=utf-8",
+								"type": "text"
+							},
+							{
+								"key": "SOAPAction",
+								"value": "\"http://tempuri.org/IServiciosCliente/MarcacionRequisitosRegistraduria\"",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "text/xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:tem=\"http://tempuri.org/\" xmlns:vin=\"http://schemas.datacontract.org/2004/07/Vinculados.EntidadesNegocio\">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <tem:MarcacionRequisitosRegistraduria>\n         <tem:tipoDocumento>1</tem:tipoDocumento>\n         <tem:numeroDocumento>1118507200</tem:numeroDocumento>\n         <tem:fechaFidelizacion>20251204</tem:fechaFidelizacion>\n         <tem:codigoApp>SWPR140</tem:codigoApp>\n         <tem:usuario>901007014</tem:usuario>\n         <tem:requisitos>\n            <vin:Requisito>\n               <vin:CampoAlfa/>\n               <vin:CampoBooleano>0</vin:CampoBooleano>\n               <vin:CampoNumerico>11001</vin:CampoNumerico>\n               <vin:DecCampoFecha1>20251204</vin:DecCampoFecha1>\n               <vin:DecCampoFecha2>0</vin:DecCampoFecha2>\n               <vin:Sigla>IDEXPE</vin:Sigla>\n            </vin:Requisito>\n            <vin:Requisito>\n               <vin:CampoAlfa>CONSULTA ANI 20250613</vin:CampoAlfa>\n               <vin:CampoBooleano>0</vin:CampoBooleano>\n               <vin:CampoNumerico>0</vin:CampoNumerico>\n               <vin:DecCampoFecha1>0</vin:DecCampoFecha1>\n               <vin:DecCampoFecha2>0</vin:DecCampoFecha2>\n               <vin:Sigla>CORNEC</vin:Sigla>\n            </vin:Requisito>\n            <vin:Requisito>\n               <vin:CampoAlfa/>\n               <vin:CampoBooleano>0</vin:CampoBooleano>\n               <vin:CampoNumerico>6</vin:CampoNumerico>\n               <vin:DecCampoFecha1>0</vin:DecCampoFecha1>\n               <vin:DecCampoFecha2>0</vin:DecCampoFecha2>\n               <vin:Sigla>ESTREG</vin:Sigla>\n            </vin:Requisito>\n            <vin:Requisito>\n               <vin:CampoAlfa/>\n               <vin:CampoBooleano>1</vin:CampoBooleano>\n               <vin:CampoNumerico>8</vin:CampoNumerico>\n               <vin:DecCampoFecha1>20260530</vin:DecCampoFecha1>\n               <vin:DecCampoFecha2>20260530</vin:DecCampoFecha2>\n               <vin:Sigla>CEDULA</vin:Sigla>\n            </vin:Requisito>\n         </tem:requisitos>\n      </tem:MarcacionRequisitosRegistraduria>\n   </soapenv:Body>\n</soapenv:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base-url}}/ServiciosCliente.svc",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"ServiciosCliente.svc"
+							]
+						}
+					}
+				},
+				{
+					"name": "MarcacionRequisitosRegistraduria - 400 (body invalido)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('HTTP 400', function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test('SOAP Fault', function () {",
+									"    pm.expect(pm.response.text()).to.include('Fault');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/xml; charset=utf-8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<soapenv:Envelope><sin cerrar>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base-url}}/ServiciosCliente.svc",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"ServiciosCliente.svc"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
 			"name": "Health",
 			"item": [
 				{

@@ -15,6 +15,7 @@ Registraduría `REGISTRADURIA_API_URL` usado por
 | --- | --- | --- |
 | GET | `/apivalidaciones/v1.0.0/validaciones?numero_identificacion={n}&codigo_tipo_identificacion={t}` | Devuelve el JSON mock del documento (`{n}.json`). |
 | GET | `/apivalidaciones/v1.0.0/health` | Health check → `200 {"status":"Healthy"}`. |
+| POST | `/ServiciosCliente.svc` | Mock SOAP de `MarcacionRequisitosRegistraduria` (Gestión Clientes). |
 
 Se usa `routePrefix` vacío (`host.json`) para replicar exactamente las rutas
 del API real.
@@ -54,6 +55,36 @@ Los JSON incluyen el bloque `estadoConsulta` y se devuelven sin modificar:
 ```
 
 Muestras versionadas de referencia en `data/muestras/`.
+
+## Mock SOAP `MarcacionRequisitosRegistraduria`
+
+`POST /ServiciosCliente.svc` reemplaza al servicio de Gestión Clientes
+(`http://gclientespru.compensar.com/ServiciosCliente.svc`). Toma **todos** los
+`vin:Requisito` recibidos y simula que todos fueron actualizados:
+
+- `200` (`text/xml`) con `MarcacionRequisitosRegistraduriaResult` = `true` y un
+  `mensaje` con una línea `Requisito '<SIGLA>' fue actualizado.` por requisito,
+  en el mismo orden.
+- `400` con SOAP Fault cuando el body es inválido: XML mal formado, sin la
+  operación `MarcacionRequisitosRegistraduria` o sin requisitos.
+- No valida `SOAPAction`/autenticación; es público.
+
+```xml
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+  <s:Body>
+    <MarcacionRequisitosRegistraduriaResponse xmlns="http://tempuri.org/">
+      <MarcacionRequisitosRegistraduriaResult>true</MarcacionRequisitosRegistraduriaResult>
+      <mensaje>Requisito 'IDEXPE' fue actualizado.
+Requisito 'CORNEC' fue actualizado.
+Requisito 'ESTREG' fue actualizado.
+Requisito 'CEDULA' fue actualizado.</mensaje>
+    </MarcacionRequisitosRegistraduriaResponse>
+  </s:Body>
+</s:Envelope>
+```
+
+No requiere blobs (la respuesta es determinística a partir del request).
+Detalle en `docs/pamc/mock-gestion-clientes-marcacion.md` de SRVORQ.
 
 ## Configuración (`local.settings.json`)
 
@@ -103,8 +134,9 @@ indiferencia ante headers de APIM y el health check.
 
 Colección de consumos y environment en `postman/`:
 
-- `mock-pamc-reg.postman_collection.json` — validaciones 200/209, 404 (TODO),
-  400 (sin parámetro) y health, con tests de respuesta.
+- `mock-pamc-reg.postman_collection.json` — consumos REST (`validaciones`
+  200/209, 404 TODO, 400, health) y SOAP (`Gestion Clientes (SOAP)`:
+  marcación 200 y 400), con tests de respuesta.
 - `mock-pamc-reg.postman_environment.json` — variables locales (`base-url`,
   `apim-subscription-key`, `token`, `consumidor-id`).
 
@@ -133,3 +165,5 @@ Configura en la Function App: `Storage:AccountUri`, `Storage:Container`,
 - **Endpoint de token**: el consumidor actual obtiene token antes de llamar a
   `validaciones`. Al apuntar `REGISTRADURIA_API_URL` al mock, revisar
   `REGISTRADURIA_TOKEN_URL` (ver doc de integración en SRVORQ).
+- **SOAP marcación — escenarios de fallo**: `MarcacionRequisitosRegistraduria`
+  siempre responde `true`; no se modela `false`/SOAP Fault funcional.
