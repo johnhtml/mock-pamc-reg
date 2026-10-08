@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/MockPamcReg.Functions/MockPamcReg.Functions.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/MockPamcReg.Functions.Tests/MockPamcReg.Functions.Tests.csproj" />
+  </Folder>
+</Solution>

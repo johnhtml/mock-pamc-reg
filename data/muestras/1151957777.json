@@ -1,0 +1,49 @@
+{
+    "correlacion_id": "20665a5d-80f2-42f6-a71b-3b81a72a2d50",
+    "codigo_estado": 200,
+    "descripcion": "Transacción Exitosa",
+    "resultado": {
+        "validacion_registraduria": {
+            "resultado": true,
+            "codigo_estado": "200",
+            "persona": {
+                "identificacion_persona": [
+                    {
+                        "clase_identificacion": {
+                            "id": 2,
+                            "descripcion": "IDREAL",
+                            "codigo": "2",
+                            "sigla": ""
+                        },
+                        "numero_identificacion": "1151957777",
+                        "tipo_validacion_documento": {
+                            "descripcion": "Cancelada por Muerte"
+                        },
+                        "fecha_expediccion": "2013-05-10",
+                        "municipio_expedicion": {
+                            "descripcion": "CALI"
+                        },
+                        "departamento_expedicion": {
+                            "descripcion": "VALLE"
+                        }
+                    }
+                ],
+                "datos_personales": {
+                    "primer_nombre": "ANGELICA",
+                    "segundo_nombre": "MARIA",
+                    "primer_apellido": "BARONA",
+                    "segundo_apellido": "DAGUA",
+                    "fecha_nacimiento": "1995-04-04",
+                    "municipio_nacimiento": {},
+                    "genero": {}
+                }
+            }
+        }
+    },
+    "estadoConsulta": {
+        "numeroControl": "5218067652",
+        "codError": "0",
+        "descripcionError": "OK",
+        "fechaHoraConsulta": "2026-09-16 10:00:37"
+    }
+}

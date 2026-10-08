@@ -1,0 +1,67 @@
+{
+    "correlacion_id": "2e12c694-22e9-44e3-a22a-7b6c1192b35c",
+    "codigo_estado": 209,
+    "descripcion": "Transacción Exitosa",
+    "resultado": {
+        "validacion_registraduria": {
+            "resultado": false,
+            "persona": {
+                "identificacion_persona": [
+                    {
+                        "clase_identificacion": {
+                            "id": 2,
+                            "descripcion": "IDREAL",
+                            "codigo": "2",
+                            "sigla": ""
+                        },
+                        "numero_identificacion": "52098280",
+                        "tipo_validacion_documento": {
+                            "descripcion": "Vigente - Válido"
+                        }
+                    },
+                    {
+                        "clase_identificacion": {
+                            "id": 1,
+                            "descripcion": "ID",
+                            "codigo": "1",
+                            "sigla": ""
+                        },
+                        "numero_identificacion": "52098280",
+                        "tipo_validacion_documento": {
+                            "descripcion": "Vigente - Válido"
+                        }
+                    },
+                    {
+                        "clase_identificacion": {
+                            "id": 3,
+                            "descripcion": "NAUTCLI",
+                            "codigo": "3",
+                            "sigla": ""
+                        },
+                        "numero_identificacion": "6212819362468301",
+                        "tipo_validacion_documento": {}
+                    }
+                ],
+                "datos_personales": {
+                    "primer_nombre": "FABIELA",
+                    "segundo_nombre": "MAYA",
+                    "primer_apellido": "AROCA",
+                    "segundo_apellido": "OSUNA",
+                    "fecha_nacimiento": "1970-08-20",
+                    "municipio_nacimiento": {
+                        "descripcion": "BOGOTÁ. D.C."
+                    },
+                    "genero": {
+                        "descripcion": "Femenino"
+                    }
+                }
+            }
+        }
+    },
+    "estadoConsulta": {
+        "numeroControl": "5218067652",
+        "codError": "0",
+        "descripcionError": "OK",
+        "fechaHoraConsulta": "2026-09-16 10:00:37"
+    }
+}

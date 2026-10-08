@@ -1,0 +1,316 @@
+{
+	"info": {
+		"_postman_id": "a0cc4592-4f4b-451f-8443-25f268ce8209",
+		"name": "Mock PAMC Registraduria",
+		"description": "Consumos al mock de Registraduria (Azure Function .NET 10 isolated) que reemplaza REGISTRADURIA_API_URL. Devuelve el JSON del blob {numero_identificacion}.json tal cual; el codigo HTTP es el valor de codigo_estado del JSON.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Validaciones",
+			"item": [
+				{
+					"name": "200 - Documento valido (1151957777)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('HTTP 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('codigo_estado 200 en el body', function () {",
+									"    pm.expect(pm.response.json().codigo_estado).to.eql(200);",
+									"});",
+									"",
+									"pm.test('Incluye estadoConsulta', function () {",
+									"    pm.expect(pm.response.json()).to.have.property('estadoConsulta');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Ocp-Apim-Subscription-Key",
+								"value": "{{apim-subscription-key}}",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "correlacion_id",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "transaccion_invocacion_id",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "consumidor_id",
+								"value": "{{consumidor-id}}",
+								"type": "text"
+							},
+							{
+								"key": "operacion_invocacion_id",
+								"value": "{{operacion-invocacion-id}}",
+								"type": "text"
+							},
+							{
+								"key": "direccion_ip_invocacion",
+								"value": "{{$randomIP}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base-url}}/apivalidaciones/v1.0.0/validaciones?numero_identificacion=1151957777&codigo_tipo_identificacion=1",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"apivalidaciones",
+								"v1.0.0",
+								"validaciones"
+							],
+							"query": [
+								{
+									"key": "numero_identificacion",
+									"value": "1151957777"
+								},
+								{
+									"key": "codigo_tipo_identificacion",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "209 - Multiples coincidencias (52098280)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('HTTP 209', function () {",
+									"    pm.response.to.have.status(209);",
+									"});",
+									"",
+									"pm.test('codigo_estado 209 en el body', function () {",
+									"    pm.expect(pm.response.json().codigo_estado).to.eql(209);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Ocp-Apim-Subscription-Key",
+								"value": "{{apim-subscription-key}}",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "consumidor_id",
+								"value": "{{consumidor-id}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base-url}}/apivalidaciones/v1.0.0/validaciones?numero_identificacion=52098280&codigo_tipo_identificacion=1",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"apivalidaciones",
+								"v1.0.0",
+								"validaciones"
+							],
+							"query": [
+								{
+									"key": "numero_identificacion",
+									"value": "52098280"
+								},
+								{
+									"key": "codigo_tipo_identificacion",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "404 - Documento no encontrado (TODO)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// TODO: ajustar la validacion cuando se conozca el body real",
+									"// del escenario 'documento no encontrado' de Registraduria.",
+									"pm.test('HTTP 404', function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base-url}}/apivalidaciones/v1.0.0/validaciones?numero_identificacion=0000000&codigo_tipo_identificacion=1",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"apivalidaciones",
+								"v1.0.0",
+								"validaciones"
+							],
+							"query": [
+								{
+									"key": "numero_identificacion",
+									"value": "0000000"
+								},
+								{
+									"key": "codigo_tipo_identificacion",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "400 - Sin numero_identificacion",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('HTTP 400', function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base-url}}/apivalidaciones/v1.0.0/validaciones?codigo_tipo_identificacion=1",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"apivalidaciones",
+								"v1.0.0",
+								"validaciones"
+							],
+							"query": [
+								{
+									"key": "codigo_tipo_identificacion",
+									"value": "1"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Health",
+			"item": [
+				{
+					"name": "200 - Health check",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('HTTP 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('status Healthy', function () {",
+									"    pm.expect(pm.response.json().status).to.eql('Healthy');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base-url}}/apivalidaciones/v1.0.0/health",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"apivalidaciones",
+								"v1.0.0",
+								"health"
+							]
+						}
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base-url",
+			"value": "https://mock-pamc-reg-gsdtavcwaffxcedu.eastus2-01.azurewebsites.net",
+			"type": "string"
+		}
+	]
+}
